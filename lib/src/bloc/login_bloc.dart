@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:formulariosbloc/src/bloc/validators.dart';
 
 
-class LoginBloc {
+
+class LoginBloc extends Validators {
 
   final _emailController    = StreamController<String>.broadcast();
   final _passwordController = StreamController<String>.broadcast();
@@ -10,8 +12,8 @@ class LoginBloc {
 
   //Get to recover the Stream data
 
-  get emailStream    => _emailController.stream;
-  get passwordStream => _passwordController.stream;
+  get emailStream    => _emailController.stream.transform(validarEmail);
+  get passwordStream => _passwordController.stream.transform( validarPassword );
 
 
   //Get to input the data to the Stream
