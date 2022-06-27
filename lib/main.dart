@@ -22,6 +22,15 @@ class MyApp extends StatelessWidget {
         'login' : (BuildContext context) => LoginPage(),
         'home'  : (BuildContext context) => HomePage(),
       },
+      theme: ThemeData(
+        inputDecorationTheme: InputDecorationTheme(
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide( color: Colors.deepPurple)
+          )
+        ),
+        primaryColor: Colors.deepPurple,
+        hintColor: Colors.black,     
+      ),
     )
    );
  }
