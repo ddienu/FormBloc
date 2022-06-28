@@ -105,7 +105,7 @@ class LoginPage extends StatelessWidget {
               SizedBox( height: 30.0),
               _crearPassword( bloc ),
               SizedBox( height: 30.0),
-              _crearBoton(),
+              _crearBoton( bloc ),
             ],
           ),
           ),
@@ -167,7 +167,11 @@ class LoginPage extends StatelessWidget {
   );  
  }
   
-  Widget _crearBoton() {
+  Widget _crearBoton(LoginBloc? bloc) {
+
+    return StreamBuilder(
+      stream: bloc?.formValidStream,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
     return ElevatedButton(
       style: ButtonStyle(
         elevation: MaterialStateProperty.all(0.0),
@@ -179,7 +183,12 @@ class LoginPage extends StatelessWidget {
         padding: EdgeInsets.symmetric( horizontal: 50.0, vertical: 15.0),
        child: Text('Ingreso'),
        ),  
-      onPressed: (){}
-      );
+      onPressed: snapshot.hasData ?(){} : null,
+      );      
+      },
+    );
+
+
+    
   }
 }

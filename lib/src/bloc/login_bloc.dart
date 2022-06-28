@@ -1,19 +1,26 @@
 import 'dart:async';
 
 import 'package:formulariosbloc/src/bloc/validators.dart';
+import 'package:rxdart/rxdart.dart';
 
 
 
 class LoginBloc extends Validators {
 
-  final _emailController    = StreamController<String>.broadcast();
-  final _passwordController = StreamController<String>.broadcast();
+  final _emailController    = BehaviorSubject<String>();
+  final _passwordController = BehaviorSubject<String>();
 
 
   //Get to recover the Stream data
 
-  get emailStream    => _emailController.stream.transform(validarEmail);
-  get passwordStream => _passwordController.stream.transform( validarPassword );
+  Stream<String>get emailStream    => _emailController.stream.transform(validarEmail);
+  Stream<String>get passwordStream => _passwordController.stream.transform( validarPassword );
+
+  Stream<bool>get formValidStream =>
+              Rx.combineLatest2(emailStream, passwordStream, (e, p) => true);
+
+                
+
 
 
   //Get to input the data to the Stream
