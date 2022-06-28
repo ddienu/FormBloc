@@ -19,14 +19,16 @@ class LoginBloc extends Validators {
   Stream<bool>get formValidStream =>
               Rx.combineLatest2(emailStream, passwordStream, (e, p) => true);
 
-                
-
-
-
+              
   //Get to input the data to the Stream
 
   get changeEmail    =>  _emailController.sink.add;
   get changePassword => _passwordController.sink.add;
+
+
+  //get 
+  String get email    => _emailController.value;
+  String get password => _passwordController.value;
 
 
   dispose(){
