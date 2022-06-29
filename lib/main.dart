@@ -3,6 +3,7 @@ import 'package:formulariosbloc/src/bloc/provider.dart';
 import 'package:formulariosbloc/src/pages/home_page.dart';
 
 import 'package:formulariosbloc/src/pages/login_page.dart';
+import 'package:formulariosbloc/src/pages/producto_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -17,10 +18,11 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
       title: 'Material App',
       debugShowCheckedModeBanner: false,
-      initialRoute: 'login',
+      initialRoute: 'home',
       routes: {
-        'login' : (BuildContext context) => LoginPage(),
-        'home'  : (BuildContext context) => HomePage(),
+        'login'    : (BuildContext context) => LoginPage(),
+        'home'     : (BuildContext context) => HomePage(),
+        'producto' : (BuildContext context) => ProductoPage(), 
       },
       theme: ThemeData(
         inputDecorationTheme: InputDecorationTheme(

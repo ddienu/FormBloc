@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:formulariosbloc/src/bloc/provider.dart';
+import 'package:formulariosbloc/src/pages/producto_page.dart';
 
 
 class HomePage extends StatelessWidget {
@@ -12,18 +13,20 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.deepPurple,
         title: Text('Form'),
         centerTitle: true,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text('El email es: ${bloc!.email}'),
-          Divider(),
-          Text('La contraseña es: ${bloc.password}'),
-        ],
-      )
+      body: Container(),
+      floatingActionButton: _crearBoton(context),
     );
+  }
+  
+  Widget _crearBoton(BuildContext context) {
+    return FloatingActionButton(
+      backgroundColor: Colors.deepPurple,
+      child: Icon(Icons.add),
+      onPressed: () =>Navigator.pushNamed(context, 'producto'),
+      );
   }
 }
