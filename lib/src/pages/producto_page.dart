@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 
-class ProductoPage extends StatelessWidget {
-  const ProductoPage({Key? key}) : super(key: key);
+import 'package:formulariosbloc/src/utils/utils.dart' as utils;
+
+class ProductoPage extends StatefulWidget {
+   ProductoPage({Key? key}) : super(key: key);
+
+  @override
+  State<ProductoPage> createState() => _ProductoPageState();
+}
+
+class _ProductoPageState extends State<ProductoPage> {
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +34,7 @@ class ProductoPage extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.all(15.0),
           child: Form(
+            key: formKey,
             child: Column(
               children: [
                 _crearNombreProducto(),
@@ -37,7 +47,7 @@ class ProductoPage extends StatelessWidget {
       ),
     );
   }
-  
+
   Widget _crearNombreProducto() {
     return TextFormField(
       textCapitalization: TextCapitalization.sentences,
@@ -45,9 +55,16 @@ class ProductoPage extends StatelessWidget {
         labelStyle: TextStyle(color: Colors.deepPurple),
         labelText: 'Producto', 
       ),
+      validator: ( value ){
+        if( value!.length < 3){
+          return 'Ingrese el nombre del producto';
+        }else{
+          return null;
+        }
+      },
     );
   }
-  
+
   Widget _crearPrecio() {
     return TextFormField(
       keyboardType: TextInputType.numberWithOptions( decimal: true ),
@@ -55,9 +72,16 @@ class ProductoPage extends StatelessWidget {
         labelStyle: TextStyle(color: Colors.deepPurple),
         labelText: 'Precio', 
       ),
+      validator: ( value ){
+          if( utils.isNumeric( value! )){
+            return null;
+          }else{
+            return 'Ingrese un precio válido';
+          }
+      },
     );
   }
-  
+
  Widget  _crearBoton() {
   return ElevatedButton.icon(
     style: ButtonStyle(
@@ -67,9 +91,18 @@ class ProductoPage extends StatelessWidget {
       elevation: MaterialStateProperty.all(0.0),
       backgroundColor: MaterialStateProperty.all<Color>(Colors.deepPurple),
     ),
-    onPressed: (){}, 
+    onPressed: _submit, 
     icon: Icon(Icons.save), 
     label: Text('Guardar'),
     );
+ }
+
+ void _submit(){
+
+    if(!formKey.currentState!.validate()) return;
+
+    print('Todo OK!');
+
+
  }
 }
