@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:formulariosbloc/src/models/producto_model.dart';
 
 import 'package:formulariosbloc/src/utils/utils.dart' as utils;
 
@@ -10,6 +11,9 @@ class ProductoPage extends StatefulWidget {
 }
 
 class _ProductoPageState extends State<ProductoPage> {
+
+  ProductoModel producto = ProductoModel();
+
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -39,6 +43,7 @@ class _ProductoPageState extends State<ProductoPage> {
               children: [
                 _crearNombreProducto(),
                 _crearPrecio(),
+                _crearDisponible(),
                 _crearBoton(),
               ],
             )
@@ -55,6 +60,7 @@ class _ProductoPageState extends State<ProductoPage> {
         labelStyle: TextStyle(color: Colors.deepPurple),
         labelText: 'Producto', 
       ),
+      onSaved: (value) => producto.title = value!,     
       validator: ( value ){
         if( value!.length < 3){
           return 'Ingrese el nombre del producto';
@@ -72,6 +78,7 @@ class _ProductoPageState extends State<ProductoPage> {
         labelStyle: TextStyle(color: Colors.deepPurple),
         labelText: 'Precio', 
       ),
+      onSaved: (value) => producto.valor = double.parse( value! ),     
       validator: ( value ){
           if( utils.isNumeric( value! )){
             return null;
@@ -97,12 +104,33 @@ class _ProductoPageState extends State<ProductoPage> {
     );
  }
 
+ Widget  _crearDisponible() {
+
+  return SwitchListTile(
+    activeColor: Colors.deepPurple,
+    value: producto.disponible,
+    title: Text('Disponible'), 
+    onChanged: (value) => setState(() {
+      producto.disponible = value;
+    }),
+    );
+ }
+
  void _submit(){
 
     if(!formKey.currentState!.validate()) return;
 
+    formKey.currentState?.save();
+
     print('Todo OK!');
+
+    print(producto.title);
+    
+    print(producto.valor);
+
+    print(producto.disponible);
 
 
  }
+ 
 }

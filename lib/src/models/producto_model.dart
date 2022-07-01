@@ -10,11 +10,11 @@ String productoModelToJson(ProductoModel data) => json.encode(data.toJson());
 
 class ProductoModel {
     ProductoModel({
-        required this.id,
+         this.id         = "",
          this.title      = '',
          this.valor      = 0.0,
          this.disponible = true,
-        required this.fotoUrl,
+         this.fotoUrl    = "",
     });
 
     String id;
