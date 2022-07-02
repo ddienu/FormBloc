@@ -49,7 +49,7 @@ class ProductosProvider {
 
      });
 
-    return [];
+     return productos;
 
   }
 

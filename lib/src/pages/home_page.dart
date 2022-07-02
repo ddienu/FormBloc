@@ -18,7 +18,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurple,
-        title: Text('Form'),
+        title: Text('Home'),
         centerTitle: true,
       ),
       body: _crearListado(),
@@ -41,7 +41,12 @@ class HomePage extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot<List<ProductoModel>> snapshot) {
         if (snapshot.hasData){
 
-          return Container();
+          final productos = snapshot.data;
+
+          return ListView.builder(
+            itemCount: productos!.length,
+            itemBuilder: (context, i) => _crearItem(context, productos[i] ),
+            );
 
         }else{
 
@@ -50,4 +55,23 @@ class HomePage extends StatelessWidget {
       },
     );
   }
+
+    Widget _crearItem(BuildContext context, ProductoModel producto){
+
+      return Dismissible(
+        key: UniqueKey(),
+        background: Container(
+          color: Colors.redAccent,
+        ),
+        onDismissed: ( direction ){
+          //TODO: Borrar producto.
+        },
+        child: ListTile(
+          title: Text(' ${producto.title } - ${ producto.valor} '),
+          subtitle: Text(producto.id),
+          onTap: () => Navigator.pushNamed(context, 'producto'), 
+          
+        ),
+      );
+    }
 }
