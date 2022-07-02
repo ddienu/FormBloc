@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:formulariosbloc/src/models/producto_model.dart';
+import 'package:formulariosbloc/src/providers/productos_provider.dart';
 
 import 'package:formulariosbloc/src/utils/utils.dart' as utils;
 
@@ -15,6 +16,8 @@ class _ProductoPageState extends State<ProductoPage> {
   ProductoModel producto = ProductoModel();
 
   final formKey = GlobalKey<FormState>();
+
+  final productoProvider = ProductosProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -130,6 +133,10 @@ class _ProductoPageState extends State<ProductoPage> {
 
     print(producto.disponible);
 
+
+    productoProvider.crearProducto( producto );
+
+    
 
  }
  
