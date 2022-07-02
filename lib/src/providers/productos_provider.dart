@@ -27,4 +27,30 @@ class ProductosProvider {
     
   }
 
+  Future<List<ProductoModel>> cargarProductos () async{
+
+    final url = Uri.https( _url, '/productos.json');
+
+    final resp = await http.get(url);
+
+    final Map<String, dynamic> decodedData = json.decode( resp.body);
+
+    final List<ProductoModel> productos = [];
+
+    if ( decodedData == null) return [];
+
+    decodedData.forEach((id, prod) {
+
+        final prodTemp = ProductoModel.fromJson( prod );
+
+        prodTemp.id = id;
+
+        productos.add( prodTemp );
+
+     });
+
+    return [];
+
+  }
+
 }

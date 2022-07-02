@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:formulariosbloc/src/bloc/provider.dart';
-import 'package:formulariosbloc/src/pages/producto_page.dart';
+import 'package:formulariosbloc/src/models/producto_model.dart';
+
+import 'package:formulariosbloc/src/providers/productos_provider.dart';
 
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+   HomePage({Key? key}) : super(key: key);
+
+  final productosProvider = ProductosProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +21,7 @@ class HomePage extends StatelessWidget {
         title: Text('Form'),
         centerTitle: true,
       ),
-      body: Container(),
+      body: _crearListado(),
       floatingActionButton: _crearBoton(context),
     );
   }
@@ -26,7 +30,24 @@ class HomePage extends StatelessWidget {
     return FloatingActionButton(
       backgroundColor: Colors.deepPurple,
       child: Icon(Icons.add),
-      onPressed: () =>Navigator.pushNamed(context, 'producto'),
+      onPressed: () => Navigator.pushNamed(context, 'producto'),
       );
+  }
+  
+  Widget _crearListado() {
+
+    return FutureBuilder(
+      future: productosProvider.cargarProductos(),
+      builder: (BuildContext context, AsyncSnapshot<List<ProductoModel>> snapshot) {
+        if (snapshot.hasData){
+
+          return Container();
+
+        }else{
+
+          return Center( child: CircularProgressIndicator());
+        }
+      },
+    );
   }
 }
