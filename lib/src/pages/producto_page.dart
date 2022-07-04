@@ -15,6 +15,8 @@ class _ProductoPageState extends State<ProductoPage> {
 
   ProductoModel producto = ProductoModel();
 
+  bool _guardando = false;
+
   final formKey = GlobalKey<FormState>();
 
   final productoProvider = ProductosProvider();
@@ -109,7 +111,7 @@ class _ProductoPageState extends State<ProductoPage> {
       elevation: MaterialStateProperty.all(0.0),
       backgroundColor: MaterialStateProperty.all<Color>(Colors.deepPurple),
     ),
-    onPressed: _submit, 
+    onPressed: (_guardando) ? null : _submit, 
     icon: Icon(Icons.save), 
     label: Text('Guardar'),
     );
@@ -133,22 +135,31 @@ class _ProductoPageState extends State<ProductoPage> {
 
     formKey.currentState?.save();
 
-    print('Todo OK!');
-
-    print(producto.title);
-    
-    print(producto.valor);
-
-    print(producto.disponible);
+    setState(() {
+    _guardando = true;
+    });
 
     if( producto.id == null){
     productoProvider.crearProducto( producto );
     }else{
     productoProvider.editarProducto( producto ); 
     }
+    mostrarSnackBar( 'El registro ha sido guardado');
 
+    Navigator.pop(context);
+ }
 
-    
+ void mostrarSnackBar( String mensaje ) {
+
+    final snackBar = SnackBar(
+      content: Text( mensaje, textAlign: TextAlign.center, style: TextStyle( fontWeight: FontWeight.bold),),
+      duration: Duration( seconds: 2),
+      backgroundColor: Theme.of(context).primaryColor,
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      
+      
 
  }
  
