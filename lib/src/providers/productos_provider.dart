@@ -13,12 +13,9 @@ class ProductosProvider {
 
     final url = Uri.https( _url, '/productos.json');
 
-    print(url);
-
     final resp = await http.post(url, body: productoModelToJson( producto ));
 
     final decodedData = json.decode( resp.body );
-
 
     print( decodedData);
 
@@ -26,8 +23,21 @@ class ProductosProvider {
 
     
   }
+  Future<bool>editarProducto( ProductoModel producto) async {
 
-  Future<List<ProductoModel>> cargarProductos () async{
+    final url = Uri.https( _url, '/productos/${producto.id}.json');
+
+    final resp = await http.put(url, body: productoModelToJson( producto ));
+
+    final decodedData = json.decode( resp.body );
+
+    print( decodedData);
+
+    return true;
+
+  }
+
+  Future<List<ProductoModel>> cargarProductos() async{
 
     final url = Uri.https( _url, '/productos.json');
 
@@ -53,7 +63,7 @@ class ProductosProvider {
 
   }
 
-  Future<int> borrarProducto ( String id) async {
+  Future<int> borrarProducto( String id) async {
 
     final url = Uri.https(_url, '/productos/$id.json');
 
