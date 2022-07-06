@@ -167,18 +167,21 @@ class _ProductoPageState extends State<ProductoPage> {
 
    Widget _mostrarFoto(){
 
+    if ( producto.fotoUrl == null){
+      return Container();
+      }else{
       return Image(
-        image: AssetImage(foto?.path ??'assets/no-image.png'),
+        image: AssetImage(foto?.path ?? 'assets/no-image.png'),
         height: 300,
         fit: BoxFit.cover,
         );
+    }
   }
- 
-  _seleccionarFoto() async {
 
+  _procesarImagen( ImageSource origen) async {
 
     foto = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
+      source: origen,
        );
 
     if ( foto != null){
@@ -186,8 +189,19 @@ class _ProductoPageState extends State<ProductoPage> {
     }
 
     setState(() { });
+
+  }
+ 
+  _seleccionarFoto() async {
+
+
+    _procesarImagen(ImageSource.gallery);
  }
 
-  _tomarFoto(){}
+  _tomarFoto() async {
+
+    _procesarImagen(ImageSource.camera);
+
+  }
  
 }
