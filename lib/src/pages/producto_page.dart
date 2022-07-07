@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:formulariosbloc/src/models/producto_model.dart';
@@ -133,7 +135,7 @@ class _ProductoPageState extends State<ProductoPage> {
     );
  }
 
- void _submit(){
+ void _submit() async {
 
     if(!formKey.currentState!.validate()) return;
 
@@ -142,6 +144,11 @@ class _ProductoPageState extends State<ProductoPage> {
     setState(() {
     _guardando = true;
     });
+
+
+    if ( foto != null){
+      producto.fotoUrl = await productoProvider.subirImagen( foto as File );
+    }
 
     if( producto.id == null){
     productoProvider.crearProducto( producto );
@@ -180,9 +187,9 @@ class _ProductoPageState extends State<ProductoPage> {
 
   _procesarImagen( ImageSource origen) async {
 
-    foto = await ImagePicker().pickImage(
+    foto = (await ImagePicker().pickImage(
       source: origen,
-       );
+       ));
 
     if ( foto != null){
       //Limpiar
