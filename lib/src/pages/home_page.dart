@@ -79,7 +79,7 @@ class HomePage extends StatelessWidget {
                 ),
                 ListTile(
                   title: Text(' ${producto.title } - ${ producto.valor} '),
-                  subtitle: Text(producto.id),
+                  //subtitle: Text(producto.id),
                   onTap: () => Navigator.pushNamed(context, 'producto', arguments: producto), 
           
         ),

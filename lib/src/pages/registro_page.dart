@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:formulariosbloc/src/bloc/provider.dart';
 
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class RegistroPage extends StatelessWidget {
+  const RegistroPage ({Key? key}) : super(key: key);
 
 
   @override
@@ -99,7 +99,7 @@ class LoginPage extends StatelessWidget {
             ),
           child: Column(
             children: [
-              Text('Ingreso', style: TextStyle(fontSize: 20.0)),
+              Text('Crear nueva cuenta', style: TextStyle(fontSize: 20.0)),
               SizedBox( height: 40.0),
               _crearEmail( bloc ),
               SizedBox( height: 30.0),
@@ -110,15 +110,15 @@ class LoginPage extends StatelessWidget {
           ),
           ),
           Container(
-            width: 180.0,
+            width: 250.0,
             child: TextButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.white10),
                 elevation: MaterialStateProperty.all(0.0),
               ),
-              onPressed: () => Navigator.pushReplacementNamed(context, 'registro'), 
+              onPressed: () => Navigator.pushReplacementNamed(context, 'login'), 
               child: Center(
-                child: Text('Crear una nueva cuenta', style: TextStyle(color: Colors.black),
+                child: Text('¿Ya tienes una cuenta? Ingreso', style: TextStyle(color: Colors.black),
                 ),
               )
               ),
@@ -211,3 +211,5 @@ class LoginPage extends StatelessWidget {
 
   }
 }
+
+
