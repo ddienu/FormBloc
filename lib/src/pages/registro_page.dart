@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:formulariosbloc/src/bloc/provider.dart';
+import 'package:formulariosbloc/src/providers/usuario_provider.dart';
 
 
 class RegistroPage extends StatelessWidget {
-  const RegistroPage ({Key? key}) : super(key: key);
+  RegistroPage ({Key? key}) : super(key: key);
+
+  final usuarioProvider = UsuarioProvider();
 
 
   @override
@@ -196,18 +199,17 @@ class RegistroPage extends StatelessWidget {
         padding: EdgeInsets.symmetric( horizontal: 50.0, vertical: 15.0),
        child: Text('Ingreso'),
        ),  
-      onPressed: snapshot.hasData ?()=>login( context, bloc) : null,
+      onPressed: snapshot.hasData ?()=>_register( context, bloc) : null,
       );      
       },
     );    
   }
   
-  login(BuildContext context, LoginBloc? bloc) {
+  _register(BuildContext context, LoginBloc? bloc) {
 
-    print('El email es: ${bloc!.email}');
-    print('La contraseña es: ${bloc.password}');
-
-    Navigator.pushReplacementNamed(context, 'home');
+    usuarioProvider.nuevoUsuario(bloc!.email, bloc.password);
+  
+  // Navigator.pushReplacementNamed(context, 'home');
 
   }
 }
