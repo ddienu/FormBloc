@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:formulariosbloc/src/bloc/provider.dart';
+import 'package:formulariosbloc/src/providers/usuario_provider.dart';
 
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  LoginPage({Key? key}) : super(key: key);
+
+
+  final usuarioProvider = UsuarioProvider();
 
 
   @override
@@ -196,18 +200,17 @@ class LoginPage extends StatelessWidget {
         padding: EdgeInsets.symmetric( horizontal: 50.0, vertical: 15.0),
        child: Text('Ingreso'),
        ),  
-      onPressed: snapshot.hasData ?()=>login( context, bloc) : null,
+      onPressed: snapshot.hasData ?()=>_login( context, bloc) : null,
       );      
       },
     );    
   }
   
-  login(BuildContext context, LoginBloc? bloc) {
+  _login(BuildContext context, LoginBloc? bloc) {
 
-    print('El email es: ${bloc!.email}');
-    print('La contraseña es: ${bloc.password}');
+      usuarioProvider.login(bloc!.email, bloc.password);
 
-    Navigator.pushReplacementNamed(context, 'home');
+    //Navigator.pushReplacementNamed(context, 'home');
 
   }
 }
