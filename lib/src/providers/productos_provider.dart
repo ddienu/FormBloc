@@ -77,7 +77,6 @@ class ProductosProvider {
     return 1;
   }
 
-
   Future<String> subirImagen(File imagen) async {
 
     final url = Uri.parse('https://api.cloudinary.com/v1_1/dztkh7sdx/image/upload?upload_preset=zlntpygk');
@@ -119,4 +118,5 @@ class ProductosProvider {
       return respData['secure_url'];
    }
 
+  
 }

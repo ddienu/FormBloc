@@ -18,8 +18,6 @@ class _ProductoPageState extends State<ProductoPage> {
 
   ProductoModel producto = ProductoModel();
 
-  bool _guardando = false;
-
   XFile? foto;
 
   final formKey = GlobalKey<FormState>();
@@ -32,8 +30,9 @@ class _ProductoPageState extends State<ProductoPage> {
     final ProductoModel prodData = ModalRoute.of(context)!.settings.arguments as ProductoModel;
 
     if ( prodData != null){
-      producto = prodData;
+    producto = prodData;
     }
+    
     return Scaffold(
       appBar: AppBar(
         title: Text('Producto'),
@@ -117,7 +116,7 @@ class _ProductoPageState extends State<ProductoPage> {
       elevation: MaterialStateProperty.all(0.0),
       backgroundColor: MaterialStateProperty.all<Color>(Colors.deepPurple),
     ),
-    onPressed: (_guardando) ? null : _submit, 
+    onPressed: _submit, 
     icon: Icon(Icons.save), 
     label: Text('Guardar'),
     );
@@ -141,23 +140,26 @@ class _ProductoPageState extends State<ProductoPage> {
 
     formKey.currentState?.save();
 
-    setState(() {
-    _guardando = true;
-    });
-
-
     if ( foto != null){
-      producto.fotoUrl = await productoProvider.subirImagen( foto as File );
+
+      producto.fotoUrl = await productoProvider.subirImagen( foto as File ) ;
     }
 
-    if( producto.id == null){
+    if(producto.id.isEmpty){
     productoProvider.crearProducto( producto );
-    }else{
+    }
+
+    if( producto.id.contains('-')){
     productoProvider.editarProducto( producto ); 
     }
+
+    
     mostrarSnackBar( 'El registro ha sido guardado');
 
-    Navigator.pop(context);
+  setState(() {
+    
+    Navigator.pushNamed(context, 'home');
+  });
  }
 
  void mostrarSnackBar( String mensaje ) {
@@ -172,30 +174,32 @@ class _ProductoPageState extends State<ProductoPage> {
       
   }
 
-   Widget _mostrarFoto(){
-
-    if ( producto.fotoUrl == null){
-      return Container();
+   _mostrarFoto() {
+  
+  if( producto.fotoUrl.isNotEmpty){
+     return FadeInImage(
+      placeholder: AssetImage('assets/jar-loading.gif'), 
+      image: NetworkImage( producto.fotoUrl ),
+      height: 300.0,
+      width: double.maxFinite,
+      fit: BoxFit.contain,
+      );
       }else{
-      return Image(
-        image: AssetImage(foto?.path ?? 'assets/no-image.png'),
-        height: 300,
-        fit: BoxFit.cover,
-        );
+        return Image(
+          image: AssetImage('assets/no-image.png'),
+          height: 300.0,
+          fit: BoxFit.cover,
+          );
+      }
+    
     }
-  }
-
+  
+    
   _procesarImagen( ImageSource origen) async {
 
-    foto = (await ImagePicker().pickImage(
+    foto = await ImagePicker().pickImage(
       source: origen,
-       ));
-
-    if ( foto != null){
-      //Limpiar
-    }
-
-    setState(() { });
+       );
 
   }
  
@@ -203,6 +207,8 @@ class _ProductoPageState extends State<ProductoPage> {
 
 
     _procesarImagen(ImageSource.gallery);
+
+    
  }
 
   _tomarFoto() async {
