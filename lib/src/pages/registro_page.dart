@@ -4,10 +4,11 @@ import 'package:formulariosbloc/src/providers/usuario_provider.dart';
 import 'package:formulariosbloc/src/utils/utils.dart';
 
 
-class LoginPage extends StatelessWidget {
-  LoginPage({Key? key}) : super(key: key);
+class RegistroPage extends StatelessWidget {
+  RegistroPage ({Key? key}) : super(key: key);
 
   final usuarioProvider = UsuarioProvider();
+
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +103,7 @@ class LoginPage extends StatelessWidget {
             ),
           child: Column(
             children: [
-              Text('Ingreso', style: TextStyle(fontSize: 20.0)),
+              Text('Crear nueva cuenta', style: TextStyle(fontSize: 20.0)),
               SizedBox( height: 40.0),
               _crearEmail( bloc ),
               SizedBox( height: 30.0),
@@ -112,9 +113,20 @@ class LoginPage extends StatelessWidget {
             ],
           ),
           ),
-          TextButton(onPressed: () => Navigator.pushNamed(context, 'registro'), 
-          child: Text('¿No tienes una cuenta? Registro', style: TextStyle(color: Colors.black),),
-        ),
+          Container(
+            width: 250.0,
+            child: TextButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.white10),
+                elevation: MaterialStateProperty.all(0.0),
+              ),
+              onPressed: () => Navigator.pushReplacementNamed(context, 'login'), 
+              child: Center(
+                child: Text('¿Ya tienes una cuenta? Ingreso', style: TextStyle(color: Colors.black),
+                ),
+              )
+              ),
+          ),
           SizedBox( height: 100.0),
         ],
       ),
@@ -188,22 +200,21 @@ class LoginPage extends StatelessWidget {
         padding: EdgeInsets.symmetric( horizontal: 50.0, vertical: 15.0),
        child: Text('Ingreso'),
        ),  
-      onPressed: snapshot.hasData ?()=>_login( context, bloc) : null,
+      onPressed: snapshot.hasData ?()=>_register( context, bloc) : null,
       );      
       },
     );    
   }
   
-  _login(BuildContext context, LoginBloc? bloc) async {
+  _register(BuildContext context, LoginBloc? bloc) async{
 
-      Map info = await usuarioProvider.login(bloc!.email, bloc.password);
+   final info = await usuarioProvider.nuevoUsuario(bloc!.email, bloc.password);
 
-      if ( info['ok']){
+   if ( info['ok']){
         Navigator.pushReplacementNamed(context, 'home');
       }else{
         mostrarAlerta(context, info['mensaje']);
       }
-
-
+  
   }
 }

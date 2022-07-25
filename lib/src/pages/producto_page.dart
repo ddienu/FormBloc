@@ -1,9 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:formulariosbloc/src/bloc/provider.dart';
 
 import 'package:formulariosbloc/src/models/producto_model.dart';
-import 'package:formulariosbloc/src/providers/productos_provider.dart';
+
 import 'package:formulariosbloc/src/utils/utils.dart' as utils;
 import 'package:image_picker/image_picker.dart';
 
@@ -16,16 +17,18 @@ class ProductoPage extends StatefulWidget {
 
 class _ProductoPageState extends State<ProductoPage> {
 
+  late ProductosBloc productosBloc;
+
   ProductoModel producto = ProductoModel();
 
   XFile? foto;
 
   final formKey = GlobalKey<FormState>();
 
-  final productoProvider = ProductosProvider();
-
   @override
   Widget build(BuildContext context) {
+
+    productosBloc = Provider.productosBloc(context)!;
 
     final ProductoModel prodData = ModalRoute.of(context)!.settings.arguments as ProductoModel;
 
@@ -142,15 +145,14 @@ class _ProductoPageState extends State<ProductoPage> {
 
     if ( foto != null){
 
-      producto.fotoUrl = await productoProvider.subirImagen( foto as File ) ;
-    }
+      producto.fotoUrl = await productosBloc.subirFoto( foto as File ) ;    }
 
     if(producto.id.isEmpty){
-    productoProvider.crearProducto( producto );
+    productosBloc.crearProducto( producto );
     }
 
     if( producto.id.contains('-')){
-    productoProvider.editarProducto( producto ); 
+    productosBloc.editarProducto( producto ); 
     }
 
     

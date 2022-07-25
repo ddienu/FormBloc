@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:mime_type/mime_type.dart';
 
@@ -51,6 +52,8 @@ class ProductosProvider {
     final List<ProductoModel> productos = [];
 
     if ( decodedData == null) return [];
+
+    if ( decodedData ['error'] != null) return [];
 
     decodedData.forEach((id, prod) {
 
