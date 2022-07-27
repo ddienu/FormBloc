@@ -1,21 +1,25 @@
 import 'dart:convert';
-import 'dart:io';
-import 'package:flutter/cupertino.dart';
+import 'package:formulariosbloc/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mime_type/mime_type.dart';
 
 import 'package:formulariosbloc/src/models/producto_model.dart';
 
 import 'package:http/http.dart' as http;
 
+  final _prefs = PreferenciasUsuario();
 
 class ProductosProvider {
 
   final String _url = 'flutter-59693-default-rtdb.firebaseio.com';
 
+
+  final Map<String, String> _queryParameters = {"auth" : _prefs.token};
+
   Future<bool>crearProducto( ProductoModel producto) async {
 
-    final url = Uri.https( _url, '/productos.json');
+    final url = Uri.https( _url, '/productos.json', _queryParameters);
 
     final resp = await http.post(url, body: productoModelToJson( producto ));
 
@@ -29,7 +33,7 @@ class ProductosProvider {
   }
   Future<bool>editarProducto( ProductoModel producto) async {
 
-    final url = Uri.https( _url, '/productos/${producto.id}.json');
+    final url = Uri.https( _url, '/productos/${producto.id}.json', _queryParameters);
 
     final resp = await http.put(url, body: productoModelToJson( producto ));
 
@@ -43,7 +47,7 @@ class ProductosProvider {
 
   Future<List<ProductoModel>> cargarProductos() async{
 
-    final url = Uri.https( _url, '/productos.json');
+    final url = Uri.https( _url, '/productos.json', _queryParameters);
 
     final resp = await http.get(url);
 
@@ -53,7 +57,7 @@ class ProductosProvider {
 
     if ( decodedData == null) return [];
 
-    if ( decodedData ['error'] != null) return [];
+    //if ( decodedData ['error'] != null) return [];
 
     decodedData.forEach((id, prod) {
 
@@ -71,7 +75,7 @@ class ProductosProvider {
 
   Future<int> borrarProducto( String id) async {
 
-    final url = Uri.https(_url, '/productos/$id.json');
+    final url = Uri.https(_url, '/productos/$id.json', _queryParameters);
 
     final resp = await http.delete(url);
 
@@ -80,7 +84,7 @@ class ProductosProvider {
     return 1;
   }
 
-  Future<String> subirImagen(File imagen) async {
+  Future<String> subirImagen(XFile imagen) async {
 
     final url = Uri.parse('https://api.cloudinary.com/v1_1/dztkh7sdx/image/upload?upload_preset=zlntpygk');
 

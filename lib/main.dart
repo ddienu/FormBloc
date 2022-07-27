@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
 
    return Provider(
       child: MaterialApp(
-      title: 'Material App',
+      title: 'FormBloc App',
       debugShowCheckedModeBanner: false,
       initialRoute: 'login',
       routes: {

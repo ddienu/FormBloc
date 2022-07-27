@@ -145,7 +145,7 @@ class _ProductoPageState extends State<ProductoPage> {
 
     if ( foto != null){
 
-      producto.fotoUrl = await productosBloc.subirFoto( foto as File ) ;    }
+      producto.fotoUrl = await productosBloc.subirFoto( foto as XFile) ;    }
 
     if(producto.id.isEmpty){
     productosBloc.crearProducto( producto );
@@ -156,7 +156,7 @@ class _ProductoPageState extends State<ProductoPage> {
     }
 
     
-    mostrarSnackBar( 'El registro ha sido guardado');
+    mostrarSnackBar( 'El producto ha sido guardado');
 
   setState(() {
     
@@ -178,7 +178,7 @@ class _ProductoPageState extends State<ProductoPage> {
 
    _mostrarFoto() {
   
-  if( producto.fotoUrl.isNotEmpty){
+  if( producto.fotoUrl.isNotEmpty && foto?.path == null){
      return FadeInImage(
       placeholder: AssetImage('assets/jar-loading.gif'), 
       image: NetworkImage( producto.fotoUrl ),
@@ -186,6 +186,9 @@ class _ProductoPageState extends State<ProductoPage> {
       width: double.maxFinite,
       fit: BoxFit.contain,
       );
+      }else if(foto?.path != null){
+          return Image.file(File(foto?.path as String)
+          );
       }else{
         return Image(
           image: AssetImage('assets/no-image.png'),
@@ -193,30 +196,33 @@ class _ProductoPageState extends State<ProductoPage> {
           fit: BoxFit.cover,
           );
       }
-    
     }
-  
-    
-  _procesarImagen( ImageSource origen) async {
-
-    foto = await ImagePicker().pickImage(
-      source: origen,
-       );
-
-  }
+ 
  
   _seleccionarFoto() async {
 
 
     _procesarImagen(ImageSource.gallery);
 
-    
  }
 
   _tomarFoto() async {
 
-    _procesarImagen(ImageSource.camera);
-
+   _procesarImagen(ImageSource.camera);
+    
   }
  
+  _procesarImagen( ImageSource origen) async {
+
+    foto = await ImagePicker().pickImage(
+      source: origen,
+       );
+
+       setState(() {
+      _mostrarFoto();
+      ProductoPage();
+    });
+       
+
+  }
 }

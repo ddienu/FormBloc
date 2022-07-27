@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:formulariosbloc/src/providers/productos_provider.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'package:formulariosbloc/src/models/producto_model.dart';
@@ -33,7 +34,7 @@ class ProductosBloc {
 
   }
 
-  Future<String> subirFoto(File foto) async {
+  Future<String> subirFoto(XFile foto) async {
 
     _cargandoController.sink.add(true);
     final fotoUrl = await _productosProvider.subirImagen( foto );
