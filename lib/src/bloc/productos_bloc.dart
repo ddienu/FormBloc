@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:flutter/cupertino.dart';
 import 'package:formulariosbloc/src/providers/productos_provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rxdart/rxdart.dart';
@@ -18,10 +17,10 @@ class ProductosBloc {
   Stream<List<ProductoModel>> get productosStream => _productosController.stream;
   Stream<bool> get cargando => _cargandoController.stream;
 
-  void cargarProductos() async {
+  void cargarProductos(BuildContext context) async {
 
 
-    final productos = await _productosProvider.cargarProductos();
+    final productos = await _productosProvider.cargarProductos(context);
     _productosController.sink.add( productos ); 
 
   }

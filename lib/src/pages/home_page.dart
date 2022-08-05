@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
 
    final productosBloc = Provider.productosBloc(context);
 
-   productosBloc!.cargarProductos();
+   productosBloc!.cargarProductos( context );
 
     return Scaffold(
       appBar: AppBar(

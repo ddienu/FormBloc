@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:formulariosbloc/src/preferencias_usuario/preferencias_usuario.dart';
+import 'package:formulariosbloc/src/utils/utils.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime_type/mime_type.dart';
@@ -45,7 +47,7 @@ class ProductosProvider {
 
   }
 
-  Future<List<ProductoModel>> cargarProductos() async{
+  Future<List<ProductoModel>> cargarProductos(BuildContext context) async{
 
     final url = Uri.https( _url, '/productos.json', _queryParameters);
 
@@ -55,9 +57,15 @@ class ProductosProvider {
 
     final List<ProductoModel> productos = [];
 
-    if ( decodedData == null) return [];
+    //if ( decodedData == null) return [];
 
-    //if ( decodedData ['error'] != null) return [];
+    if ( decodedData ['error'] != null){
+
+      print( decodedData ["error"]);
+
+      mostrarAlerta(context, decodedData["error"]);
+    }
+      
 
     decodedData.forEach((id, prod) {
 
